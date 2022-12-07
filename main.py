@@ -1,11 +1,18 @@
-import pygame, sys
-from pygame.locals import QUIT
+"""
+Header
+Name: Hanna
+Date: Jan 20 2022
+Class: Gr 11 Computer Tech
+Program: Culminating
+Purpose: 
+"""
+# imports turtle module
+import turtle
 
-pygame.init()
-DISPLAYSURF = pygame.display.set_mode((400, 300))
-while True:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-    pygame.display.update()
+# creates screen
+# title, size, and background
+screen = turtle.Screen()
+screen.title('Hannas Desktop')
+screen.setup(1000,800)
+screen.bgpic('desktop.gif')
+
