@@ -9,6 +9,11 @@ Purpose:
 # imports turtle module
 import turtle
 
+# defines turtle pen
+# hides turtle
+pen = turtle.Turtle()
+pen.hideturtle()
+
 # creates screen
 # title, size, and background
 screen = turtle.Screen()
@@ -16,56 +21,34 @@ screen.title('Hannas Desktop')
 screen.setup(1000,800)
 screen.bgpic('desktop.gif')
 
-# defines turtle pen
-# hides turtle
-pen = turtle.Turtle()
-pen.hideturtle()
-
+  
 # animelist application
-pen.penup()
-pen.begin_fill()
-screen.addshape('animelistapp.gif')
-pen.shape('animelistapp.gif')
-pen.goto(-400, 300)
-pen.stamp()
+def create_animelistapp(pen, x, y):
+  pen.penup()
+  pen.begin_fill()
+  screen.addshape('animelistapp.gif')
+  pen.shape('animelistapp.gif')
+  pen.goto(x, y)
+  pen.stamp()
+  pen.end_fill()
+  return x and y
+
+create_animelistapp(pen,-400,300)
+
+insdf= input()
+insdf = "poop"
+  screen2 = turtle.Screen()
+  screen2.title('H')
+  screen.setup(1000,800)
+  screen.bgpic('animelistapp.gif')
 
 """
-Button_x = -450
-Button_y = 300
-ButtonLength = 100
-ButtonWidth = 50
+def animelistapp_click(x, y):
+  if button_x <= x <= button_x + buttonLength and button_y <= y <= button_y + buttonWidth:
+    screen = turtle.Screen()
+    screen.title('H')
+    screen.setup(1000,800)
+    screen.bgpic('animelistapp.gif')
 
-mode = 'dark'
-
-
-def draw_rect_button(pen, message = 'Hangman'):
-    pen.penup()
-    pen.begin_fill()
-    pen.goto(Button_x, Button_y)
-    pen.goto(Button_x + ButtonLength, Button_y)
-    pen.goto(Button_x + ButtonLength, Button_y + ButtonWidth)
-    pen.goto(Button_x, Button_y + ButtonWidth)
-    pen.goto(Button_x, Button_y)
-    pen.end_fill()
-    pen.goto(Button_x + 15, Button_y + 15)
-    pen.write(message, font = ('Arial', 15, 'normal'))
-
-
-draw_rect_button(pen)
-
-
-def button_click(x, y):
-    global mode
-    if Button_x <= x <= Button_x + ButtonLength:
-        if Button_y <= y <= Button_y + ButtonWidth:
-            print('Clicked')
-            if mode == 'dark':
-                screen.bgcolor('orange')
-                mode = 'light'
-            else:
-                screen.bgcolor('#111111')
-                mode = 'dark'
-
-def distance(p1, p2):
-    return (p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2
+screen.onclick(animelistapp_click(-400,300))
 """
