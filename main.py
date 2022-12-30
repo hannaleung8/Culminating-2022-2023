@@ -34,7 +34,7 @@ pygame.display.set_caption('8 Ball Pool')
 # defines the background colour
 # using RGB color coding
 # fills the background colour to the screen
-background_colour = (cc.navy_blue)
+background_colour = (cc.slate_green)
 screen.fill(background_colour)
   
 # update the full display using flip
@@ -42,9 +42,19 @@ pygame.display.flip()
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def draw_field():
+  pygame.draw.rect(screen, cc.green, pygame.Rect(75, 60, 350, 175))
+  pygame.display.flip()
+def draw_border():
+  pygame.draw.rect(screen, cc.tan, pygame.Rect(50, 50, 400, 200))
+  pygame.display.flip()
 
-pygame.draw.rect(screen, cc.grey, pygame.Rect(50, 50, 400, 200))
-pygame.display.flip()
+
+def draw_pool_table():
+  draw_border()
+  draw_field()
+draw_pool_table()
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
