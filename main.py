@@ -43,10 +43,10 @@ pygame.display.flip()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def draw_field():
-  pygame.draw.rect(screen, cc.green, pygame.Rect(75, 60, 350, 175))
+  pygame.draw.rect(screen, cc.green, pygame.Rect(70, 70, 300, 150))
   pygame.display.flip()
 def draw_border():
-  pygame.draw.rect(screen, cc.tan, pygame.Rect(50, 50, 400, 200))
+  pygame.draw.rect(screen, cc.tan, pygame.Rect(45, 45, 350, 200))
   pygame.display.flip()
 
 
