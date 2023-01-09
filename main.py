@@ -45,15 +45,29 @@ pygame.display.flip()
 def draw_field():
   pygame.draw.rect(screen, cc.green, pygame.Rect(70, 70, 300, 150))
   pygame.display.flip()
+  
 def draw_border():
   pygame.draw.rect(screen, cc.tan, pygame.Rect(45, 45, 350, 200))
   pygame.display.flip()
 
+def draw_pocket(x,y):
+  pygame.draw.circle(screen, cc.black, (x,y), 10)
+  pygame.display.flip()
 
+def pockets():
+  pocket1 = draw_pocket(100,50)
+  pocket2 = draw_pocket(150,50)
+
+
+# function to draw pool table
 def draw_pool_table():
   draw_border()
   draw_field()
+  pockets()
+  
 draw_pool_table()
+
+
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
