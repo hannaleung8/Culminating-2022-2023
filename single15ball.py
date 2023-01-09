@@ -1,34 +1,27 @@
 
+# imports pygame module
+# imports os system
+# imports math function * to multiply
+# imports colour variables
+
 import pygame
 import sys
 from math import *
-import random
-
+import colour_codes as cc
+# initializes all imported pygame modules
 pygame.init()
+
+# variable made to track time
+clk = pygame.time.Clock()
+
+#defines the dimensions of the screen using variables
 wid = 660
 heig = 360
 outerHeight = 400
 margin = 30
 display = pygame.display.set_mode((wid, outerHeight))
-pygame.display.set_caption("8 Ball Pool")
-clk = pygame.time.Clock()
+pygame.display.set_caption("single player 8 Ball Pool (15 balls)")
 
-background = (51, 51, 51)
-white = (236, 240, 241)
-
-grey = (123, 125, 125)
-
-black = (23, 32, 42)
-yellow = (244, 208, 63)
-blue = (52, 152, 219)
-red = (203, 67, 53)
-purple = (136, 78, 160)
-orange = (230, 126, 34)
-green = (40, 180, 99)
-brown = (100, 30, 22)
-stickColor = (249, 231, 159)
-
-colors = [yellow, blue, red, purple, orange, green, brown, black, yellow, blue, red, purple, orange, green, brown]
 
 balls = []
 noBalls = 15
@@ -49,11 +42,11 @@ class Ball:
     # Draws Balls on Display Window
     def draw(self, i, j):
         pygame.draw.ellipse(display, self.color, (i - radius, j - radius, radius*2, radius*2))
-        if self.color == black or self.ballNum == "cue":
-            ballNo = self.font.render(str(self.ballNum), True, white)
+        if self.color == cc.black or self.ballNum == "cue":
+            ballNo = self.font.render(str(self.ballNum), True, cc.white)
             display.blit(ballNo, (i - 5, j - 5))
         else:
-            ballNo = self.font.render(str(self.ballNum), True, black)
+            ballNo = self.font.render(str(self.ballNum), True, cc.black)
             if self.ballNum > 9:
                 display.blit(ballNo, (i - 6, j - 5))
             else:
@@ -125,7 +118,7 @@ class CueStick:
     def draw(self, cuex, cuey):
         self.x, self.y = pygame.mouse.get_pos()
         self.tangent = (degrees(atan2((cuey - self.y), (cuex - self.x))))
-        pygame.draw.line(display, white, (cuex + self.length*cos(radians(self.tangent)), cuey + self.length*sin(radians(self.tangent))), (cuex, cuey), 1)
+        pygame.draw.line(display, cc.white, (cuex + self.length*cos(radians(self.tangent)), cuey + self.length*sin(radians(self.tangent))), (cuex, cuey), 1)
         pygame.draw.line(display, self.color, (self.x, self.y), (cuex, cuey), 3)
 
 
@@ -188,10 +181,10 @@ def checkCollision():
                     balls[j].y += (balls[j].speed)*cos(radians(angle))
 
 def border():
-    pygame.draw.rect(display, grey, (0, 0, wid, 30))
-    pygame.draw.rect(display, grey, (0, 0, 30, heig))
-    pygame.draw.rect(display, grey, (wid - 30, 0, wid, heig))
-    pygame.draw.rect(display, grey, (0, heig - 30, wid, heig))
+    pygame.draw.rect(display, cc.grey, (0, 0, wid, 30))
+    pygame.draw.rect(display, cc.grey, (0, 0, 30, heig))
+    pygame.draw.rect(display, cc.grey, (wid - 30, 0, wid, heig))
+    pygame.draw.rect(display, cc.grey, (0, heig - 30, wid, heig))
 
 def score():
     font = pygame.font.SysFont("Agency FB", 30)
@@ -200,7 +193,7 @@ def score():
     for i in range(len(balls)):
         balls[i].draw((i + 1)*2*(radius + 1), heig + radius + 10)
 
-    text = font.render("Remaining Balls: " + str(len(balls)), True, stickColor)
+    text = font.render("Remaining Balls: " + str(len(balls)), True, cc.stickColor)
     display.blit(text, (wid/2 + 50, heig + radius/2))
 
 
@@ -211,21 +204,21 @@ def reset():
 
     s = 70
 
-    a1 = Ball(s, heig/2 - 4*radius, 0, colors[0], 0, 1)
-    a2 = Ball(s + 2*radius, heig/2 - 3*radius, 0, colors[1], 0, 2)
-    a3 = Ball(s, heig/2 - 2*radius, 0, colors[2], 0, 3)
-    a4 = Ball(s + 4*radius, heig/2 - 2*radius, 0, colors[3], 0, 4)
-    a5 = Ball(s + 2*radius, heig/2 - 1*radius, 0, colors[4], 0, 5)
-    a6 = Ball(s, heig/2, 0, colors[5], 0, 6)
-    a7 = Ball(s + 6*radius, heig/2 - 1*radius, 0, colors[6], 0, 7)
-    a8 = Ball(s + 4*radius, heig/2, 0, colors[7], 0, 8)
-    a9 = Ball(s + 8*radius, heig/2, 0, colors[8], 0, 9)
-    a10 = Ball(s + 6*radius, heig/2 + 1*radius, 0, colors[9], 0, 10)
-    a11 = Ball(s + 2*radius, heig/2 + 1*radius, 0, colors[10], 0, 11)
-    a12 = Ball(s, heig/2 + 2*radius, 0, colors[11], 0, 12)
-    a13 = Ball(s + 4*radius, heig/2 + 2*radius, 0, colors[12], 0, 13)
-    a14 = Ball(s + 2*radius, heig/2 + 3*radius, 0, colors[13], 0, 14)
-    a15 = Ball(s, heig/2 + 4*radius, 0, colors[14], 0, 15)
+    a1 = Ball(s, heig/2 - 4*radius, 0, cc.colors[0], 0, 1)
+    a2 = Ball(s + 2*radius, heig/2 - 3*radius, 0,  cc.colors[1], 0, 2)
+    a3 = Ball(s, heig/2 - 2*radius, 0, cc.colors[2], 0, 3)
+    a4 = Ball(s + 4*radius, heig/2 - 2*radius, 0, cc.colors[3], 0, 4)
+    a5 = Ball(s + 2*radius, heig/2 - 1*radius, 0, cc.colors[4], 0, 5)
+    a6 = Ball(s, heig/2, 0, cc.colors[5], 0, 6)
+    a7 = Ball(s + 6*radius, heig/2 - 1*radius, 0, cc.colors[6], 0, 7)
+    a8 = Ball(s + 4*radius, heig/2, 0, cc.colors[7], 0, 8)
+    a9 = Ball(s + 8*radius, heig/2, 0, cc.colors[8], 0, 9)
+    a10 = Ball(s + 6*radius, heig/2 + 1*radius, 0, cc.colors[9], 0, 10)
+    a11 = Ball(s + 2*radius, heig/2 + 1*radius, 0, cc.colors[10], 0, 11)
+    a12 = Ball(s, heig/2 + 2*radius, 0, cc.colors[11], 0, 12)
+    a13 = Ball(s + 4*radius, heig/2 + 2*radius, 0, cc.colors[12], 0, 13)
+    a14 = Ball(s + 2*radius, heig/2 + 3*radius, 0, cc.colors[13], 0, 14)
+    a15 = Ball(s, heig/2 + 4*radius, 0, cc.colors[14], 0, 15)
 
     balls.append(a1)
     balls.append(a2)
@@ -280,12 +273,12 @@ def poolTable():
     noPockets = 6
     pockets = []
 
-    i1 = Pockets(0, 0, black)
-    i2 = Pockets(wid/2 - i1.r*2, 0, black)
-    i3 = Pockets(wid - i1.r - margin - 5, 0, black)
-    i4 = Pockets(0, heig - margin - 5 - i1.r, black)
-    i5 = Pockets(wid/2 - i1.r*2, heig - margin - 5 - i1.r, black)
-    i6 = Pockets(wid - i1.r - margin - 5, heig - margin - 5 - i1.r, black)
+    i1 = Pockets(0, 0, cc.black)
+    i2 = Pockets(wid/2 - i1.r*2, 0, cc.black)
+    i3 = Pockets(wid - i1.r - margin - 5, 0, cc.black)
+    i4 = Pockets(0, heig - margin - 5 - i1.r, cc.black)
+    i5 = Pockets(wid/2 - i1.r*2, heig - margin - 5 - i1.r, cc.black)
+    i6 = Pockets(wid - i1.r - margin - 5, heig - margin - 5 - i1.r, cc.black)
 
     pockets.append(i1)
     pockets.append(i2)
@@ -294,8 +287,8 @@ def poolTable():
     pockets.append(i5)
     pockets.append(i6)
 
-    cueBall = Ball(wid/2, heig/2, 0, white, 0, "cue")
-    cueStick = CueStick(0, 0, 100, stickColor)
+    cueBall = Ball(wid/2, heig/2, 0, cc.white, 0, "cue")
+    cueStick = CueStick(0, 0, 100, cc.stickColor)
 
 
     start = 0
@@ -324,7 +317,7 @@ def poolTable():
                 cueStick.applyForce(cueBall, force)
 
 
-        display.fill(background)
+        display.fill(cc.background)
 
         cueBall.draw(cueBall.x, cueBall.y)
         cueBall.move()

@@ -11,6 +11,11 @@ Purpose:
 # imports randomizer
 # imports math function * to multiply
 
+import pygame
+import sys
+from math import *
+import random
+
 import single15ball as s15
 
 s15.poolTable()
