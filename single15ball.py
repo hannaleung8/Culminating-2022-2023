@@ -8,6 +8,7 @@ import pygame
 import sys
 from math import *
 import colour_codes as cc
+
 # initializes all imported pygame modules
 pygame.init()
 
