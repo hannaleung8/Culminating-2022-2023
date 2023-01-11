@@ -31,10 +31,9 @@ display.fill(cc.blue)
 pygame.display.flip()
 
 # Create a button
+
 button_s15 = pygame.draw.rect(display, cc.black, pygame.Rect(300, 250, 200, 50))
 pygame.display.flip()
-
-
 
 # Run the game loop
 running = True
