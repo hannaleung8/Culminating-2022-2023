@@ -7,35 +7,58 @@ Program: Culminating
 Purpose: 
 """
 # imports pygame module
-# imports os system
-# imports randomizer
-# imports math function * to multiply
+# import colour code file
+# import single 15 ball file
 
 import pygame
-import sys
-from math import *
-import random
-
 import colour_codes as cc
 import single15ball as s15
 
 # initializes all imported pygame modules
 pygame.init()
 
+# creates screen size, header, and colour
 wid = 660
 heig = 400
 display = pygame.display.set_mode((wid, heig))
 pygame.display.set_caption("Pool ball")
-
-display.fill(cc.blue)
+display.fill(cc.background2)
 pygame.display.flip()
 
-# Create a button
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-button_s15 = pygame.draw.rect(display, cc.black, pygame.Rect(300, 250, 200, 50))
+# font objects
+font = pygame.font.Font(None, 36)
+font2 = pygame.font.Font(None, 16)
+
+# button size
+button_rect = pygame.Rect(100, 150, 100, 50)
+
+# text rendering
+title = font.render("Pool Ball Menu", True, (cc.black))
+credit = font2.render("By: Hanna Leung", True, (cc.black))
+b_s15_text = font.render("Practice", True, (cc.white))
+
+# blit the text onto the screen
+display.blit(title, (100, 50))
+display.blit(credit, (150, 80))
+display.blit(b_s15_text, (100, 150))
+
 pygame.display.flip()
 
-# Run the game loop
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# draw the button and button text
+pygame.draw.rect(display, (cc.black), button_rect)
+
+button_s15 = display.blit(b_s15_text, (button_rect.x + button_rect.width//2 -b_s15_text.get_rect().width//2, button_rect.y + button_rect.height//2 - b_s15_text.get_rect().height//2))
+
+pygame.display.flip()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# game loop
+# if a button is clicked transers the user to a different screen
 running = True
 while running:
     for event in pygame.event.get():
@@ -48,9 +71,6 @@ while running:
                 pygame.display.flip()
             else:
               print("hi")
-
-
+              
     # Update the display
     pygame.display.flip()
-
-s15.poolTable()
