@@ -15,7 +15,7 @@ pygame.init()
 # variable made to track time
 clk = pygame.time.Clock()
 
-#defines the dimensions of the screen using variables
+# defines the dimensions of the screen using variables to create pool table
 wid = 660
 heig = 360
 outerHeight = 400
@@ -23,107 +23,124 @@ margin = 30
 display = pygame.display.set_mode((wid, outerHeight))
 pygame.display.set_caption("single player 8 Ball Pool (15 balls)")
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
+# initializes balls, radius, and the friction
 balls = []
 noBalls = 15
 radius = 10
 friction = 0.005
 
-# Ball Class
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+# ball class
 class Ball:
-    def __init__(self, i, j, speed, color, angle, ballNum):
-        self.x = i + radius
-        self.y = j + radius
-        self.color = color
-        self.angle = angle
-        self.speed = speed
-        self.ballNum = ballNum
-        self.font = pygame.font.SysFont("Agency FB", 10)
+  
+# initialize ball object, place, colour, speed, angle, ball number, and font
+  def __init__(self, i, j, speed, color, angle, ballNum):
+      self.x = i + radius
+      self.y = j + radius
+      self.color = color
+      self.angle = angle
+      self.speed = speed
+      self.ballNum = ballNum
+      self.font = pygame.font.SysFont("Agency FB", 10)
+  
+# draws balls on display window
+# creates eight ball and cue ball seperately
+  def draw(self, i, j):
+      pygame.draw.ellipse(display, self.color, (i - radius, j - radius, radius*2, radius*2))
+      if self.color == cc.black or self.ballNum == "cue":
+          ballNo = self.font.render(str(self.ballNum), True, cc.white)
+          display.blit(ballNo, (i - 5, j - 5))
+      else:
+          ballNo = self.font.render(str(self.ballNum), True, cc.black)
+          if self.ballNum > 9:
+              display.blit(ballNo, (i - 6, j - 5))
+          else:
+              display.blit(ballNo, (i - 5, j - 5))
+  
+# moves the ball around the screen based on angles of each individual ball
+# takes into account speed, friction, and angles within the margin border
+  def move(self):
+      self.speed -= friction
+      if self.speed <= 0:
+          self.speed = 0
+      self.x = self.x + self.speed*cos(radians(self.angle))
+      self.y = self.y + self.speed*sin(radians(self.angle))
+  
+      if not (self.x < wid - radius - margin):
+          self.x = wid - radius - margin
+          self.angle = 180 - self.angle
+      if not(radius + margin < self.x):
+          self.x = radius + margin
+          self.angle = 180 - self.angle
+      if not (self.y < heig - radius - margin):
+          self.y = heig - radius - margin
+          self.angle = 360 - self.angle
+      if not(radius + margin < self.y):
+          self.y = radius + margin
+          self.angle = 360 - self.angle
 
-    # Draws Balls on Display Window
-    def draw(self, i, j):
-        pygame.draw.ellipse(display, self.color, (i - radius, j - radius, radius*2, radius*2))
-        if self.color == cc.black or self.ballNum == "cue":
-            ballNo = self.font.render(str(self.ballNum), True, cc.white)
-            display.blit(ballNo, (i - 5, j - 5))
-        else:
-            ballNo = self.font.render(str(self.ballNum), True, cc.black)
-            if self.ballNum > 9:
-                display.blit(ballNo, (i - 6, j - 5))
-            else:
-                display.blit(ballNo, (i - 5, j - 5))
-
-    # Moves the Ball around the Screen
-    def move(self):
-        self.speed -= friction
-        if self.speed <= 0:
-            self.speed = 0
-        self.x = self.x + self.speed*cos(radians(self.angle))
-        self.y = self.y + self.speed*sin(radians(self.angle))
-
-        if not (self.x < wid - radius - margin):
-            self.x = wid - radius - margin
-            self.angle = 180 - self.angle
-        if not(radius + margin < self.x):
-            self.x = radius + margin
-            self.angle = 180 - self.angle
-        if not (self.y < heig - radius - margin):
-            self.y = heig - radius - margin
-            self.angle = 360 - self.angle
-        if not(radius + margin < self.y):
-            self.y = radius + margin
-            self.angle = 360 - self.angle
-
-# Pocket Class
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        
+# pocket class
 class Pockets:
-    def __init__(self, x, y, color):
-        self.r = margin/2
-        self.x = x + self.r + 10
-        self.y = y + self.r + 10
-        self.color = color
+  
+# initializes pocket dimensions, spot, and colour
+  def __init__(self, x, y, color):
+      self.r = margin/2
+      self.x = x + self.r + 10
+      self.y = y + self.r + 10
+      self.color = color
 
-    # Draws the Pockets on Pygame Window
-    def draw(self):
-        pygame.draw.ellipse(display, self.color, (self.x - self.r, self.y - self.r, self.r*2, self.r*2))
+# draws the pockets on the display
+  def draw(self):
+      pygame.draw.ellipse(display, self.color, (self.x - self.r, self.y - self.r, self.r*2, self.r*2))
 
-    # Checks if ball has entered the Hole
-    def checkPut(self):
-        global balls
-        ballsCopy = balls[:]
-        for i in range(len(balls)):
-            dist = ((self.x - balls[i].x)**2 + (self.y - balls[i].y)**2)**0.5
-            if dist < self.r + radius:
-                if balls[i] in ballsCopy:
-                    if balls[i].ballNum == 8:
-                        gameOver()
-                    else:
-                        ballsCopy.remove(balls[i])
+  # Checks if ball has entered the Hole
+  # Checks if 8 ball went into a hole, if so gameover screen
+  def checkPut(self):
+      global balls
+      ballsCopy = balls[:]
+      for i in range(len(balls)):
+          dist = ((self.x - balls[i].x)**2 + (self.y - balls[i].y)**2)**0.5
+          if dist < self.r + radius:
+              if balls[i] in ballsCopy:
+                  if balls[i].ballNum == 8:
+                      gameOver()
+                  else:
+                      ballsCopy.remove(balls[i])
 
-        balls = ballsCopy[:]
+      balls = ballsCopy[:]
 
-# Cue Stick Class
+# cue stick class
 class CueStick:
-    def __init__(self, x, y, length, color):
-        self.x = x
-        self.y = y
-        self.length = length
-        self.color = color
-        self.tangent = 0
 
-    # Applies force to Cue Ball
-    def applyForce(self, cueBall, force):
-        cueBall.angle = self.tangent
-        cueBall.speed = force
+# initializes length, colour, and location
+  def __init__(self, x, y, length, color):
+      self.x = x
+      self.y = y
+      self.length = length
+      self.color = color
+      self.tangent = 0
 
-    # Draws Cue Stick on Pygame Window
-    def draw(self, cuex, cuey):
-        self.x, self.y = pygame.mouse.get_pos()
-        self.tangent = (degrees(atan2((cuey - self.y), (cuex - self.x))))
-        pygame.draw.line(display, cc.white, (cuex + self.length*cos(radians(self.tangent)), cuey + self.length*sin(radians(self.tangent))), (cuex, cuey), 1)
-        pygame.draw.line(display, self.color, (self.x, self.y), (cuex, cuey), 3)
+  # applies force to cue ball
+  def applyForce(self, cueBall, force):
+      cueBall.angle = self.tangent
+      cueBall.speed = force
+
+  # draws cue stick on pygame window
+  # gets position from mouse
+  # draws white aim line
+  def draw(self, cuex, cuey):
+      self.x, self.y = pygame.mouse.get_pos()
+      self.tangent = (degrees(atan2((cuey - self.y), (cuex - self.x))))
+      pygame.draw.line(display, cc.white, (cuex + self.length*cos(radians(self.tangent)), cuey + self.length*sin(radians(self.tangent))), (cuex, cuey), 1)
+      pygame.draw.line(display, self.color, (self.x, self.y), (cuex, cuey), 3)
 
 
-# Checks Collision
+# checks collision function
 def collision(ball1, ball2):
     dist = ((ball1.x - ball2.x)**2 + (ball1.y - ball2.y)**2)**0.5
     if dist <= radius*2:
@@ -131,7 +148,7 @@ def collision(ball1, ball2):
     else:
         return False
 
-# Checks if Cue Ball hits any Ball
+# checks if cue ball hits any ball using collision function
 def checkCueCollision(cueBall):
     for i in range(len(balls)):
         if collision(cueBall, balls[i]):
@@ -156,7 +173,7 @@ def checkCueCollision(cueBall):
                 cueBall.y += (cueBall.speed)*cos(radians(angle))
 
 
-############  Checks Collision Between Balls
+# checks collision between balls using collision function
 def checkCollision():
     for i in range(len(balls)):
         for j in range(len(balls) - 1, i, -1):
@@ -181,12 +198,15 @@ def checkCollision():
                     balls[j].x -= (balls[j].speed)*sin(radians(angle))
                     balls[j].y += (balls[j].speed)*cos(radians(angle))
 
+# creates border around field
 def border():
     pygame.draw.rect(display, cc.grey, (0, 0, wid, 30))
     pygame.draw.rect(display, cc.grey, (0, 0, 30, heig))
     pygame.draw.rect(display, cc.grey, (wid - 30, 0, wid, heig))
     pygame.draw.rect(display, cc.grey, (0, heig - 30, wid, heig))
 
+# creates score on screen
+# checks the amount of balls on the screen
 def score():
     font = pygame.font.SysFont("Agency FB", 30)
 
@@ -197,7 +217,7 @@ def score():
     text = font.render("Remaining Balls: " + str(len(balls)), True, cc.stickColor)
     display.blit(text, (wid/2 + 50, heig + radius/2))
 
-
+# reset screen to initial postions
 def reset():
     global balls, noBalls
     noBalls = 15
@@ -205,6 +225,7 @@ def reset():
 
     s = 70
 
+  
     a1 = Ball(s, heig/2 - 4*radius, 0, cc.colors[0], 0, 1)
     a2 = Ball(s + 2*radius, heig/2 - 3*radius, 0,  cc.colors[1], 0, 2)
     a3 = Ball(s, heig/2 - 2*radius, 0, cc.colors[2], 0, 3)
@@ -238,7 +259,8 @@ def reset():
     balls.append(a15)
 
 
-
+# function for game over
+# text pops 
 def gameOver():
     font = pygame.font.SysFont("Agency FB", 75)
     if len(balls) == 0:
