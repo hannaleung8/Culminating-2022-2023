@@ -98,8 +98,8 @@ class Pockets:
   def draw(self):
       pygame.draw.ellipse(display, self.color, (self.x - self.r, self.y - self.r, self.r*2, self.r*2))
 
-  # Checks if ball has entered the Hole
-  # Checks if 8 ball went into a hole, if so gameover screen
+  # checks if ball has entered the hole
+  # checks if 8 ball went into a hole, if so gameover screen
   def checkPut(self):
       global balls
       ballsCopy = balls[:]

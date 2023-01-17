@@ -13,6 +13,7 @@ Purpose:
 import pygame
 import colour_codes as cc
 import single15ball as s15
+import database as d
 
 # initializes all imported pygame modules
 pygame.init()
@@ -59,6 +60,7 @@ pygame.display.flip()
 
 # game loop
 # if a button is clicked transers the user to a different screen
+"""
 running = True
 while running:
     for event in pygame.event.get():
@@ -74,3 +76,5 @@ while running:
               
     # Update the display
     pygame.display.flip()
+"""
+d.database()
