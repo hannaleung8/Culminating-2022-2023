@@ -9,8 +9,6 @@ import sys
 from math import *
 import colour_codes as cc
 
-# initializes all imported pygame modules
-pygame.init()
 
 # variable made to track time
 clk = pygame.time.Clock()
@@ -21,7 +19,6 @@ heig = 360
 outerHeight = 400
 margin = 30
 display = pygame.display.set_mode((wid, outerHeight))
-pygame.display.set_caption("single player 8 Ball Pool (15 balls)")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 

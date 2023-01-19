@@ -2,6 +2,7 @@ import pygame
 
 background = (51, 51, 51)
 background2 = (0, 153, 78)
+background3 = (153, 204, 255)
 
 white = (236, 240, 241)
 
