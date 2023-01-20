@@ -15,9 +15,18 @@ import pygame
 import colour_codes as cc
 import single15ball as s15
 import database as d
+import LeaderboardScreen as l
 
 # initializes all imported pygame modules
 pygame.init()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # creates screen size, header, and colour
 wid = 660
@@ -79,7 +88,7 @@ while running:
                 s15.poolTable()
                 pygame.display.flip()
             elif button_database.collidepoint(event.pos):
-                d.database()
+                l.leaderboard()
                 pygame.display.flip()
             else:
               print("hi")
