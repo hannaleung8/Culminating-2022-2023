@@ -84,6 +84,28 @@ def add_username(msg):
   except (Exception, sqlite3.Error) as error:
       print("Error while inserting data", error)
 
+def update_wins(msg):
+  try:
+    print("\n")
+    input_username = input(msg)
+    input_WL = input("Did you win or lose? ")
+    
+    connection = h.get_connection()
+    cursor = connection.cursor()
+    insert_win_query = "UPDATE Leaderboard SET Wins = Wins + 1 WHERE username = ?;"
+    insert_loss_query = "UPDATE Leaderboard SET Losses = Losses + 1 WHERE username = ?;"
+    if input_WL == "Win":
+      cursor.execute(insert_win_query, (input_username,))
+    elif input_WL == "Loss":
+      cursor.execute(insert_loss_query, (input_username,))
+    else:
+      print("no")
+      
+    connection.commit()
+    print("Your data has been updated. Feel free to use the Display All Usernames action to see your added data in the database or see it by searching it using Search Movies.")
+  except (Exception, sqlite3.Error) as error:
+      print("Error while inserting data", error)
+
 
 def database():
 # start of the program
@@ -98,6 +120,7 @@ def database():
     print("3. Clear Screen")
     print("4. Return to menu")
     print("5. Add new username")
+    print("6. Update wins")
     action = input ("Enter the number of your Action: ")
   
   # runs action
@@ -118,6 +141,8 @@ def database():
     elif (action == "5"):
       add_username("Please enter your username")
       print("\n")
+    elif (action == "6"):
+      update_wins("Please enter username of winner")
 
     else:
       print("Please enter the number that goes with the action you want to do")
