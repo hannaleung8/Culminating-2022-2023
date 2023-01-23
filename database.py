@@ -139,7 +139,9 @@ def database():
       print("")
     elif (action == "4"):
       print("\n")
-      print("Thank you for using the Movie Database")
+      print("Thank you for using the Database, please click back intot he console now :)")
+      import main as m
+      m.main_menu()
       break
     elif (action == "5"):
       add_username("Please enter your username")
@@ -149,4 +151,3 @@ def database():
 
     else:
       print("Please enter the number that goes with the action you want to do")
-  

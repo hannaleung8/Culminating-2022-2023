@@ -4,8 +4,10 @@ Name: Hanna
 Date: Jan 20 2022
 Class: Gr 11 Computer Tech
 Program: Culminating
-Purpose: 
+Purpose: to play pool and show what I learned in this course
+(Unfinished)
 """
+
 # imports pygame module
 # import colour code file
 # import single 15 ball file as s15
@@ -16,6 +18,7 @@ import colour_codes as cc
 import single15ball as s15
 import leaderboard_screen as l
 import sys
+import database as d
 
 # initializes all imported pygame modules
 pygame.init()
@@ -41,14 +44,14 @@ font3 = pygame.font.Font(None, 24)
 # button size
 button_rect = pygame.Rect(100, 150, 100, 50)
 button_rect2 = pygame.Rect(400, 150, 100, 50)
-button_rect3 = pygame.Rect(550, 350, 50, 25)
+button_rect3 = pygame.Rect(100, 250, 100, 50)
 
 # text rendering
 title = font.render("Pool Ball Menu", True, (cc.black))
 credit = font2.render("By: Hanna Leung", True, (cc.black))
 b_s15_text = font.render("Practice", True, (cc.white))
-b_database_text = font.render("Podium", True, (cc.white))
-b_main_menu_text = font3.render("main menu", True, (cc.white))
+b_leaderboard_text = font.render("Podium", True, (cc.white))
+b_database_text = font3.render("database", True, (cc.white))
 
 # blit the text onto the screen
 display.blit(title, (100, 50))
@@ -65,10 +68,16 @@ button_s15 = display.blit(b_s15_text, (button_rect.x + button_rect.width//2 -b_s
 # draws button Podium and text
 pygame.draw.rect(display, (cc.black), button_rect2)
 
-button_database = display.blit(b_database_text, (button_rect2.x + button_rect2.width//2 -b_database_text.get_rect().width//2, button_rect2.y + button_rect.height//2 - b_database_text.get_rect().height//2))
+button_leaderboard = display.blit(b_leaderboard_text, (button_rect2.x + button_rect2.width//2 -b_leaderboard_text.get_rect().width//2, button_rect2.y + button_rect.height//2 - b_leaderboard_text.get_rect().height//2))
 
 pygame.display.flip()
 
+# draws button database and text
+pygame.draw.rect(display, (cc.black), button_rect3)
+
+button_database = display.blit(b_database_text, (button_rect3.x + button_rect3.width//2 -b_database_text.get_rect().width//2, button_rect3.y + button_rect.height//2 - b_database_text.get_rect().height//2))
+
+pygame.display.flip()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 def instructions():
@@ -105,9 +114,12 @@ class Menu:
                     if button_s15.collidepoint(event.pos):
                         instructions()
                         s15.pool_table()
-                    elif button_database.collidepoint(event.pos):
+                    elif button_leaderboard.collidepoint(event.pos):
                         instructions()
                         l.leaderboard()
+                    elif button_database.collidepoint(event.pos):
+                        d.database()
                         pygame.display.flip()
+            pygame.display.flip()
             pygame.display.flip()
     main_menu()
