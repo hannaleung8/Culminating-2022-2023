@@ -11,7 +11,6 @@ import colour_codes as cc
 
 
 
-
 # variable made to track time
 clk = pygame.time.Clock()
 
@@ -30,6 +29,23 @@ no_balls = 15
 radius = 10
 friction = 0.05
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.score = 0
+        self.turn = False
+        
+    def update_score(self, points):
+        self.score += points
+        
+    def take_turn(self):
+        self.turn = True
+        
+    def end_turn(self):
+        self.turn = False
+
+    
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # ball class

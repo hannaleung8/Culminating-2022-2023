@@ -15,6 +15,7 @@ import pygame
 import colour_codes as cc
 import single15ball as s15
 import leaderboard_screen as l
+import sys
 
 # initializes all imported pygame modules
 pygame.init()
@@ -40,16 +41,19 @@ pygame.display.flip()
 # font objects
 font = pygame.font.Font(None, 36)
 font2 = pygame.font.Font(None, 16)
+font3 = pygame.font.Font(None, 24)
 
 # button size
 button_rect = pygame.Rect(100, 150, 100, 50)
 button_rect2 = pygame.Rect(400, 150, 100, 50)
+button_rect3 = pygame.Rect(550, 350, 50, 25)
 
 # text rendering
 title = font.render("Pool Ball Menu", True, (cc.black))
 credit = font2.render("By: Hanna Leung", True, (cc.black))
 b_s15_text = font.render("Practice", True, (cc.white))
 b_database_text = font.render("Podium", True, (cc.white))
+b_main_menu_text = font3.render("main menu", True, (cc.white))
 
 # blit the text onto the screen
 display.blit(title, (100, 50))
@@ -72,33 +76,42 @@ button_database = display.blit(b_database_text, (button_rect2.x + button_rect2.w
 
 pygame.display.flip()
 
-# draws button main menu
-pygame.draw.rect(display, (cc.black), button_rect2)
+def instructions():
+    image = pygame.image.load('instructions.png')
+    # Get the rectangle of the image
+    rect = image.get_rect()
+    
+    # Set the center position of the image
+    rect.center = (wid/2, heig/2)
+    
+    # Draw the image on the display
+    display.blit(image, rect)
+    
+    pygame.display.flip()
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_x:
+                    s15.pool_table()
+                    return
 
-button_database = display.blit(b_database_text, (button_rect2.x + button_rect2.width//2 -b_database_text.get_rect().width//2, button_rect2.y + button_rect.height//2 - b_database_text.get_rect().height//2))
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-# game loop
-# if a button is clicked transers the user to a different screen
-def main_menu():
-  running = True
-  while running:
-      for event in pygame.event.get():
-          if event.type == pygame.QUIT:
-              running = False
-          elif event.type == pygame.MOUSEBUTTONDOWN:
-              if button_s15.collidepoint(event.pos):
-                  s15.pool_table()
-                  pygame.display.flip()
-              elif button_database.collidepoint(event.pos):
-                  l.leaderboard()
-                  pygame.display.flip()
-              else:
-                print("hi")
-                
-      # Update the display
-      pygame.display.flip()
-
-main_menu()
-
+class Menu:
+    def main_menu():
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if button_s15.collidepoint(event.pos):
+                        instructions()
+                    elif button_database.collidepoint(event.pos):
+                        l.leaderboard()
+                        pygame.display.flip()
+            pygame.display.flip()
+    main_menu()
