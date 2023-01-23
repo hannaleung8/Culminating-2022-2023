@@ -1,7 +1,8 @@
 import pygame
-import databaseTable as h
+import database_table as h
 import sys
 import colour_codes as cc
+
 
 def leaderboard():
   # Initialize Pygame

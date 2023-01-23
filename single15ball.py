@@ -16,15 +16,15 @@ clk = pygame.time.Clock()
 # defines the dimensions of the screen using variables to create pool table
 wid = 660
 heig = 360
-outerHeight = 400
+outer_height = 400
 margin = 30
-display = pygame.display.set_mode((wid, outerHeight))
+display = pygame.display.set_mode((wid, outer_height))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # initializes balls, radius, and the friction
 balls = []
-noBalls = 15
+no_balls = 15
 radius = 10
 friction = 0.005
 
@@ -34,28 +34,28 @@ friction = 0.005
 class Ball:
   
 # initialize ball object, place, colour, speed, angle, ball number, and font
-  def __init__(self, i, j, speed, color, angle, ballNum):
+  def __init__(self, i, j, speed, color, angle, ball_num):
       self.x = i + radius
       self.y = j + radius
       self.color = color
       self.angle = angle
       self.speed = speed
-      self.ballNum = ballNum
+      self.ball_num = ball_num
       self.font = pygame.font.SysFont("Agency FB", 10)
   
 # draws balls on display window
 # creates eight ball and cue ball seperately
   def draw(self, i, j):
       pygame.draw.ellipse(display, self.color, (i - radius, j - radius, radius*2, radius*2))
-      if self.color == cc.black or self.ballNum == "cue":
-          ballNo = self.font.render(str(self.ballNum), True, cc.white)
-          display.blit(ballNo, (i - 5, j - 5))
+      if self.color == cc.black or self.ball_num == "cue":
+          ball_no = self.font.render(str(self.ball_num), True, cc.white)
+          display.blit(ball_no, (i - 5, j - 5))
       else:
-          ballNo = self.font.render(str(self.ballNum), True, cc.black)
-          if self.ballNum > 9:
-              display.blit(ballNo, (i - 6, j - 5))
+          ball_no = self.font.render(str(self.ball_num), True, cc.black)
+          if self.ball_num > 9:
+              display.blit(ball_no, (i - 6, j - 5))
           else:
-              display.blit(ballNo, (i - 5, j - 5))
+              display.blit(ball_no, (i - 5, j - 5))
   
 # moves the ball around the screen based on angles of each individual ball
 # takes into account speed, friction, and angles within the margin border
@@ -97,22 +97,22 @@ class Pockets:
 
   # checks if ball has entered the hole
   # checks if 8 ball went into a hole, if so gameover screen
-  def checkPut(self):
+  def check_put(self):
       global balls
-      ballsCopy = balls[:]
+      balls_copy = balls[:]
       for i in range(len(balls)):
           dist = ((self.x - balls[i].x)**2 + (self.y - balls[i].y)**2)**0.5
           if dist < self.r + radius:
-              if balls[i] in ballsCopy:
-                  if balls[i].ballNum == 8:
+              if balls[i] in balls_copy:
+                  if balls[i].ball_num == 8:
                       gameOver()
                   else:
-                      ballsCopy.remove(balls[i])
+                      balls_copy.remove(balls[i])
 
-      balls = ballsCopy[:]
+      balls = balls_copy[:]
 
 # cue stick class
-class CueStick:
+class Cue_stick:
 
 # initializes length, colour, and location
   def __init__(self, x, y, length, color):
@@ -123,9 +123,9 @@ class CueStick:
       self.tangent = 0
 
   # applies force to cue ball
-  def applyForce(self, cueBall, force):
-      cueBall.angle = self.tangent
-      cueBall.speed = force
+  def apply_force(self, cue_ball, force):
+      cue_ball.angle = self.tangent
+      cue_ball.speed = force
 
   # draws cue stick on pygame window
   # gets position from mouse
@@ -146,37 +146,37 @@ def collision(ball1, ball2):
         return False
 
 # checks if cue ball hits any ball using collision function
-def checkCueCollision(cueBall):
+def check_cue_collision(cue_ball):
     for i in range(len(balls)):
-        if collision(cueBall, balls[i]):
-            if balls[i].x == cueBall.x:
-                angleIncline = 2*90
+        if collision(cue_ball, balls[i]):
+            if balls[i].x == cue_ball.x:
+                angle_incline = 2*90
             else:
                 u1 = balls[i].speed
-                u2 = cueBall.speed
+                u2 = cue_ball.speed
 
-                balls[i].speed = ((u1*cos(radians(balls[i].angle)))**2 + (u2*sin(radians(cueBall.angle)))**2)**0.5
-                cueBall.speed = ((u2*cos(radians(cueBall.angle)))**2 + (u1*sin(radians(balls[i].angle)))**2)**0.5
+                balls[i].speed = ((u1*cos(radians(balls[i].angle)))**2 + (u2*sin(radians(cue_ball.angle)))**2)**0.5
+                cue_ball.speed = ((u2*cos(radians(cue_ball.angle)))**2 + (u1*sin(radians(balls[i].angle)))**2)**0.5
 
-                tangent = degrees((atan((balls[i].y - cueBall.y)/(balls[i].x - cueBall.x)))) + 90
+                tangent = degrees((atan((balls[i].y - cue_ball.y)/(balls[i].x - cue_ball.x)))) + 90
                 angle = tangent + 90
 
                 balls[i].angle = (2*tangent - balls[i].angle)
-                cueBall.angle = (2*tangent - cueBall.angle)
+                cue_ball.angle = (2*tangent - cue_ball.angle)
 
                 balls[i].x += (balls[i].speed)*sin(radians(angle))
                 balls[i].y -= (balls[i].speed)*cos(radians(angle))
-                cueBall.x -= (cueBall.speed)*sin(radians(angle))
-                cueBall.y += (cueBall.speed)*cos(radians(angle))
+                cue_ball.x -= (cue_ball.speed)*sin(radians(angle))
+                cue_ball.y += (cue_ball.speed)*cos(radians(angle))
 
 
 # checks collision between balls using collision function
-def checkCollision():
+def check_collision():
     for i in range(len(balls)):
         for j in range(len(balls) - 1, i, -1):
             if collision(balls[i], balls[j]):
                 if balls[i].x == balls[j].x:
-                    angleIncline = 2*90
+                    angle_incline = 2*90
                 else:
                     u1 = balls[i].speed
                     u2 = balls[j].speed
@@ -207,7 +207,7 @@ def border():
 def score():
     font = pygame.font.SysFont("Agency FB", 30)
 
-    pygame.draw.rect(display, (51, 51, 51), (0, heig, wid, outerHeight))
+    pygame.draw.rect(display, (51, 51, 51), (0, heig, wid, outer_height))
     for i in range(len(balls)):
         balls[i].draw((i + 1)*2*(radius + 1), heig + radius + 10)
 
@@ -216,8 +216,8 @@ def score():
 
 # reset screen to initial postions
 def reset():
-    global balls, noBalls
-    noBalls = 15
+    global balls, no_balls
+    no_balls = 15
     balls = []
 
     s = 70
@@ -274,7 +274,7 @@ def gameOver():
                     close()
 
                 if event.key == pygame.K_r:
-                    poolTable()
+                    pool_table()
         display.blit(text, (50, heig/2))
 
         pygame.display.update()
@@ -285,12 +285,12 @@ def close():
     sys.exit()
 
 # Main Function
-def poolTable():
+def pool_table():
     loop = True
 
     reset()
 
-    noPockets = 6
+    no_pockets = 6
     pockets = []
 
     i1 = Pockets(0, 0, cc.black)
@@ -307,8 +307,8 @@ def poolTable():
     pockets.append(i5)
     pockets.append(i6)
 
-    cueBall = Ball(wid/2, heig/2, 0, cc.white, 0, "cue")
-    cueStick = CueStick(0, 0, 100, cc.stickColor)
+    cue_ball = Ball(wid/2, heig/2, 0, cc.white, 0, "cue")
+    cue_stick = Cue_stick(0, 0, 100, cc.stickColor)
 
 
     start = 0
@@ -323,10 +323,10 @@ def poolTable():
                     close()
 
                 if event.key == pygame.K_r:
-                    poolTable()
+                    pool_table()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                start = [cueBall.x, cueBall.y]
+                start = [cue_ball.x, cue_ball.y]
                 x, y = pygame.mouse.get_pos()
                 end = [x ,y]
                 dist = ((start[0] - end[0])**2 + (start[1] - end[1])**2)**0.5
@@ -334,17 +334,17 @@ def poolTable():
                 if force > 10:
                     force = 10
 
-                cueStick.applyForce(cueBall, force)
+                cue_stick.apply_force(cue_ball, force)
 
 
         display.fill(cc.background)
 
-        cueBall.draw(cueBall.x, cueBall.y)
-        cueBall.move()
+        cue_ball.draw(cue_ball.x, cue_ball.y)
+        cue_ball.move()
 
-        if not (cueBall.speed > 0):
+        if not (cue_ball.speed > 0):
 
-            cueStick.draw(cueBall.x, cueBall.y)
+            cue_stick.draw(cue_ball.x, cue_ball.y)
 
         for i in range(len(balls)):
             balls[i].draw(balls[i].x, balls[i].y)
@@ -352,20 +352,21 @@ def poolTable():
         for i in range(len(balls)):
            balls[i].move()
 
-        checkCollision()
-        checkCueCollision(cueBall)
+        check_collision()
+        check_cue_collision(cue_ball)
         border()
 
-        for i in range(noPockets):
+        for i in range(no_pockets):
             pockets[i].draw()
 
-        for i in range(noPockets):
-            pockets[i].checkPut()
+        for i in range(no_pockets):
+            pockets[i].check_put()
 
-        if len(balls) == 1 and balls[0].ballNum == 8:
+        if len(balls) == 1 and balls[0].ball_num == 8:
             gameOver()
 
         score()
 
         pygame.display.update()
         clk.tick(60)
+      

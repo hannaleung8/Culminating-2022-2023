@@ -14,8 +14,7 @@ Purpose:
 import pygame
 import colour_codes as cc
 import single15ball as s15
-import database as d
-import LeaderboardScreen as l
+import leaderboard_screen as l
 
 # initializes all imported pygame modules
 pygame.init()
@@ -61,38 +60,45 @@ display.blit(credit, (150, 80))
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-# draw the button and button text
+# draws button Practice and text
 pygame.draw.rect(display, (cc.black), button_rect)
 
 button_s15 = display.blit(b_s15_text, (button_rect.x + button_rect.width//2 -b_s15_text.get_rect().width//2, button_rect.y + button_rect.height//2 - b_s15_text.get_rect().height//2))
 
-
+# draws button Podium and text
 pygame.draw.rect(display, (cc.black), button_rect2)
 
 button_database = display.blit(b_database_text, (button_rect2.x + button_rect2.width//2 -b_database_text.get_rect().width//2, button_rect2.y + button_rect.height//2 - b_database_text.get_rect().height//2))
 
 pygame.display.flip()
 
+# draws button main menu
+pygame.draw.rect(display, (cc.black), button_rect2)
+
+button_database = display.blit(b_database_text, (button_rect2.x + button_rect2.width//2 -b_database_text.get_rect().width//2, button_rect2.y + button_rect.height//2 - b_database_text.get_rect().height//2))
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # game loop
 # if a button is clicked transers the user to a different screen
+def main_menu():
+  running = True
+  while running:
+      for event in pygame.event.get():
+          if event.type == pygame.QUIT:
+              running = False
+          elif event.type == pygame.MOUSEBUTTONDOWN:
+              if button_s15.collidepoint(event.pos):
+                  s15.pool_table()
+                  pygame.display.flip()
+              elif button_database.collidepoint(event.pos):
+                  l.leaderboard()
+                  pygame.display.flip()
+              else:
+                print("hi")
+                
+      # Update the display
+      pygame.display.flip()
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if button_s15.collidepoint(event.pos):
-                s15.poolTable()
-                pygame.display.flip()
-            elif button_database.collidepoint(event.pos):
-                l.leaderboard()
-                pygame.display.flip()
-            else:
-              print("hi")
-              
-    # Update the display
-    pygame.display.flip()
+main_menu()
 
