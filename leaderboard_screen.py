@@ -28,6 +28,10 @@ def leaderboard():
           if event.type == pygame.QUIT:
               pygame.quit()
               sys.exit()
+          if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                    from main import Menu as m
+                    m.main_menu()
   
       # Clear the screen
       screen.fill((cc.background3))

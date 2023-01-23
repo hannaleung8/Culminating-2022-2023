@@ -92,7 +92,6 @@ def instructions():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_x:
-                    s15.pool_table()
                     return
 
 class Menu:
@@ -105,7 +104,9 @@ class Menu:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if button_s15.collidepoint(event.pos):
                         instructions()
+                        s15.pool_table()
                     elif button_database.collidepoint(event.pos):
+                        instructions()
                         l.leaderboard()
                         pygame.display.flip()
             pygame.display.flip()
