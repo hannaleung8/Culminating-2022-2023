@@ -1,7 +1,7 @@
 
 # imports sql, the file to create the table, tabulate to create a nice chart, and s system to clear the screen for cleaner user experience
 import sqlite3
-import databaseTable as h
+import database_table as h
 from tabulate import tabulate
 import os
 
@@ -15,27 +15,30 @@ import os
 # if user's chosen search is in database, it prints it
 # if not, the user will be notified what they searched does not exist
 def search_usernames():
-  try:
-    search_criteria = input("Please input the username you want to search for: ")
-
-    select_query = """SELECT * FROM Leaderboard WHERE Username = ?"""
-    connection = h.get_connection()
-    cursor = connection.cursor()
-    cursor.execute(select_query, (search_criteria,))
-    records = cursor.fetchall()
-    if(records):
-      print("Printing matching Username records: ")
-      for row in records:
-          print("\n")
-          print('Username: ', row[0])
-          print("Wins: ", row[1])
-          print("Losses: ", row[2])
+  while True:
+    try:
+      search_criteria = input("Please input the username: ")
+  
+      select_query = """SELECT * FROM Leaderboard WHERE Username = ?"""
+      connection = h.get_connection()
+      cursor = connection.cursor()
+      cursor.execute(select_query, (search_criteria,))
+      records = cursor.fetchall()
+      if(records):
+        print("Printing matching Username records: ")
         
-    else:
-      print("Sorry, no matching usernames found")
-    h.close_connection(connection)
-  except (Exception, sqlite3.Error) as error:
-    print("Error while getting data", error)
+        for row in records:
+            print("\n")
+            print('Username: ', row[0])
+            print("Wins: ", row[1])
+            print("Losses: ", row[2])
+        return row[0]
+          
+      else:
+        print("Sorry, no matching usernames found")
+      h.close_connection(connection)
+    except (Exception, sqlite3.Error) as error:
+      print("Error while getting data", error)
 
     
 # function to display all usernames in database

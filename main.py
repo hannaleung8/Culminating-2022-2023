@@ -20,11 +20,6 @@ import sys
 # initializes all imported pygame modules
 pygame.init()
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-
-
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -60,8 +55,6 @@ display.blit(title, (100, 50))
 display.blit(credit, (150, 80))
 
 
-
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # draws button Practice and text
@@ -75,6 +68,8 @@ pygame.draw.rect(display, (cc.black), button_rect2)
 button_database = display.blit(b_database_text, (button_rect2.x + button_rect2.width//2 -b_database_text.get_rect().width//2, button_rect2.y + button_rect.height//2 - b_database_text.get_rect().height//2))
 
 pygame.display.flip()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 def instructions():
     image = pygame.image.load('instructions.png')
