@@ -51,7 +51,7 @@ title = font.render("Pool Ball Menu", True, (cc.black))
 credit = font2.render("By: Hanna Leung", True, (cc.black))
 b_s15_text = font.render("Practice", True, (cc.white))
 b_leaderboard_text = font.render("Podium", True, (cc.white))
-b_database_text = font3.render("database", True, (cc.white))
+b_database_text = font3.render("Database", True, (cc.white))
 
 # blit the text onto the screen
 display.blit(title, (100, 50))
